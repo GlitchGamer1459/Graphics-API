@@ -1,0 +1,7 @@
+batch rendering
+    involves creating a begin() and end() function to draw the scene at the end of the loop
+redo shader class to streamline and add more variance
+    add support for variable amounts of shaders, other types of shaders, and individual shader files
+create material class to build off of texture class and create easier texturing
+add cameras as pass-by-value view matrices
+add basic input detection beyond <windows.h>
