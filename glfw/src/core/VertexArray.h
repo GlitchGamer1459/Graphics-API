@@ -5,22 +5,26 @@
 #include "VertexBuffer.h"
 #include "VertexBufferLayout.h"
 
-class VertexArray {
+namespace odin {
 
-private:
-    unsigned int m_RendererID;
+    class VertexArray {
 
-public:
-    static unsigned int s_BoundBuffer;
+    private:
+        unsigned int m_RendererID;
 
-    VertexArray(const VertexArray&) = delete;
+    public:
+        static unsigned int s_BoundBuffer;
 
-    VertexArray();
-    ~VertexArray();
+        VertexArray(const VertexArray&) = delete;
 
-    void Bind() const;
-    void Unbind() const;
+        VertexArray();
+        ~VertexArray();
 
-    void AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& layout);
+        void Bind() const;
+        void Unbind() const;
 
-};
+        void AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& layout);
+
+    };
+
+}

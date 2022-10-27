@@ -8,40 +8,44 @@
 
 #include "glm/glm.hpp"
 
-struct ShaderProgSrc {
+namespace odin {
 
-    std::string vertexSrc;
-    std::string fragmentSrc;
+    struct ShaderProgSrc {
 
-};
+        std::string vertexSrc;
+        std::string fragmentSrc;
 
-class Shader {
+    };
 
-private:
-    std::string m_FilePath;
-    unsigned int m_RendererID;
-    mutable std::unordered_map<std::string, int> m_UniformLocationCache;
+    class Shader {
 
-public:
-    static unsigned int s_BoundShader;
+    private:
+        std::string m_FilePath;
+        unsigned int m_RendererID;
+        mutable std::unordered_map<std::string, int> m_UniformLocationCache;
 
-    Shader(const std::string& filepath);
-    ~Shader();
+    public:
+        static unsigned int s_BoundShader;
 
-    void Bind() const;
-    void Unbind() const;
+        Shader(const std::string& filepath);
+        ~Shader();
 
-    // set uniforms
-    void SetUniform1i(const std::string& name, int value);
-    void SetUniform1f(const std::string& name, float value);
-    void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
-    void SetUniformMat4f(const std::string& name, const glm::mat4& matrix);
+        void Bind() const;
+        void Unbind() const;
 
-private:
-    ShaderProgSrc ParseShader(const std::string& filepath);
-    unsigned int CompileShader(const std::string& SOURCE, unsigned int type);
-    unsigned int CreateShader(const std::string& VERTEX_SHADER, const std::string& FRAGMENT_SHADER);
+        // set uniforms
+        void SetUniform1i(const std::string& name, int value);
+        void SetUniform1f(const std::string& name, float value);
+        void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
+        void SetUniformMat4f(const std::string& name, const glm::mat4& matrix);
 
-    int GetUniformLocation(const std::string& name) const;
+    private:
+        ShaderProgSrc ParseShader(const std::string& filepath);
+        unsigned int CompileShader(const std::string& SOURCE, unsigned int type);
+        unsigned int CreateShader(const std::string& VERTEX_SHADER, const std::string& FRAGMENT_SHADER);
 
-};
+        int GetUniformLocation(const std::string& name) const;
+
+    };
+
+}

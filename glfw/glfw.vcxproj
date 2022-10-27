@@ -24,6 +24,7 @@
     <ProjectGuid>{e4c1abad-bea3-471f-95d1-ae39144322de}</ProjectGuid>
     <RootNamespace>glfw</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>odin graphics api</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

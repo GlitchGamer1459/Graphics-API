@@ -4,43 +4,47 @@
 
 #include <string>
 
-class Window {
+namespace odin {
 
-private:
-    GLFWwindow* m_WindowID;
-    int m_Width, m_Height;
-    std::string m_Title;
+    class Window {
 
-public:
-    Window(int width, int height, const char* title, GLFWmonitor* monitor, GLFWwindow* share);
-    ~Window();
+    private:
+        GLFWwindow* m_WindowID;
+        int m_Width, m_Height;
+        std::string m_Title;
 
-    void MakeContextCurrent();
-    bool WindowShouldClose();
-    bool WindowDoesNotExist();
-    void SwapBuffers();
+    public:
+        Window(int width, int height, const char* title, GLFWmonitor* monitor, GLFWwindow* share);
+        ~Window();
 
-    GLFWwindow* GetId() { return m_WindowID; }
+        void MakeContextCurrent();
+        bool WindowShouldClose();
+        bool WindowDoesNotExist();
+        void SwapBuffers();
 
-};
+        GLFWwindow* GetId() { return m_WindowID; }
 
-class IMGUIwindow {
+    };
 
-private:
-    GLFWwindow* m_WindowID;
-    int m_Width, m_Height;
-    std::string m_Title;
+    class IMGUIwindow {
 
-public:
-    IMGUIwindow(int width, int height, const char* title, GLFWmonitor* monitor, GLFWwindow* share);
-    ~IMGUIwindow();
+    private:
+        GLFWwindow* m_WindowID;
+        int m_Width, m_Height;
+        std::string m_Title;
 
-    void MakeContextCurrent();
-    bool WindowShouldClose();
-    bool WindowDoesNotExist();
-    void SwapBuffers();
+    public:
+        IMGUIwindow(int width, int height, const char* title, GLFWmonitor* monitor, GLFWwindow* share);
+        ~IMGUIwindow();
 
-    void NewFrame();
-    void Render();
+        void MakeContextCurrent();
+        bool WindowShouldClose();
+        bool WindowDoesNotExist();
+        void SwapBuffers();
 
-};
+        void NewFrame();
+        void Render();
+
+    };
+
+}

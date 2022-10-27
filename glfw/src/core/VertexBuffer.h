@@ -2,18 +2,22 @@
 
 #include <GL/glew.h>
 
-class VertexBuffer {
+namespace odin {
 
-private:
-    unsigned int m_RendererID;
+    class VertexBuffer {
 
-public:
-    static unsigned int s_BoundBuffer;
+    private:
+        unsigned int m_RendererID;
 
-    VertexBuffer(const void* data, unsigned int size);
-    ~VertexBuffer();
+    public:
+        static unsigned int s_BoundBuffer;
 
-    void Bind() const;
-    void Unbind() const;
+        VertexBuffer(const void* data, unsigned int size);
+        ~VertexBuffer();
 
-};
+        void Bind() const;
+        void Unbind() const;
+
+    };
+
+}

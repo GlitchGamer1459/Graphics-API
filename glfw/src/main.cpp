@@ -34,7 +34,7 @@ int main(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    Window window(960, 540, "Hello World", NULL, NULL);
+    odin::Window window(960, 540, "Hello World", NULL, NULL);
     if (window.WindowDoesNotExist()) 
     {
         std::cout << "glfw failed to make a window\n";
@@ -71,27 +71,27 @@ int main(void)
         2, 3, 0
     };
 
-    VertexArray bird;
-    VertexBuffer vb(&birdV, 4 * 4 * sizeof(float));
-    VertexBufferLayout birdLayout;
+    odin::VertexArray bird;
+    odin::VertexBuffer vb(&birdV, 4 * 4 * sizeof(float));
+    odin::VertexBufferLayout birdLayout;
     birdLayout.Push<float>(2);
     birdLayout.Push<float>(2);
     bird.AddBuffer(vb, birdLayout);
 
-    IndexBuffer birdIB(birdIndices, 6);
+    odin::IndexBuffer birdIB(birdIndices, 6);
 
     glm::vec3 birdTranslation(320, 270, 0);
 
     glm::mat4 projection = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
     glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
 
-    Shader birdShader("res/shaders/fbird.fs");
+    odin::Shader birdShader("res/shaders/fbird.fs");
 
-    Texture texture("res/textures/flappy_bird.png");
+    odin::Texture texture("res/textures/flappy_bird.png");
     texture.Bind(0);
     birdShader.SetUniform1i("u_Texture", 0);
 
-    Renderer renderer;
+    odin::Renderer renderer;
 
     float birdSpeed = 0.0f;
 
