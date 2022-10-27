@@ -105,7 +105,7 @@ int main(void)
 
         birdTranslation.y += birdSpeed;
 
-        if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+        if (GetAsyncKeyState(VK_SPACE) & 0x8000 && birdSpeed < 6)
             birdSpeed = 7;
 
         glm::mat4 model = glm::translate(glm::mat4(1.0f), birdTranslation);

@@ -1,3 +1,4 @@
+add namespace odin to everything
 batch rendering
     involves creating a begin() and end() function to draw the scene at the end of the loop
 redo shader class to streamline and add more variance
