@@ -51,17 +51,17 @@ int main(void)
     glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
 
     float square[]{
-        0, 0, // 0
-        0, 1, // 1
-        1, 1, // 2
-        1, 0  // 3 
+        0.0f, 0.0f, 0.0f, 1.0f, 0.5f, 0.0f, 1.0f, // 0
+        0.0f, 1.0f, 0.0f, 1.0f, 0.5f, 0.0f, 1.0f, // 1
+        1.0f, 1.0f, 0.0f, 1.0f, 0.5f, 0.0f, 1.0f, // 2
+        1.0f, 0.0f, 0.0f, 1.0f, 0.5f, 0.0f, 1.0f  // 3 
     };
 
     float s2[]{
-        0, 0, // 4
-        0, -1, // 5
-        -1, -1, // 6
-        -1, 0  // 7 
+         0.0f,  0.0f , 0 , 1.0f, 0.0f, 1.0f, 1.0f, // 4
+         0.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, // 5
+        -1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, // 6
+        -1.0f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f  // 7 
     };
 
     Renderer2D::Init("res/shaders/DrawQuad.fs");
@@ -71,8 +71,8 @@ int main(void)
     {
         Renderer2D::Clear();
 
-        Renderer2D::DrawQuad(square, 8);
-        Renderer2D::DrawQuad(s2, 8);
+        Renderer2D::DrawQuad(square, 28);
+        Renderer2D::DrawQuad(s2, 28);
 
         Renderer2D::DrawBatch();
         window.SwapBuffers();

@@ -72,12 +72,11 @@ namespace odin {
         VertexArray va;
         VertexBuffer vb(s_Vertices.data(), s_Size);
         VertexBufferLayout layout;
-        layout.Push<float>(2);
+        layout.Push<float>(3); // vertices
+        layout.Push<float>(4); // rgba
         va.AddBuffer(vb, layout);
 
         IndexBuffer ib(s_Indices.data(), s_Count);
-
-        s_QuadShader->SetUniform4f("u_DQColor", 1.0f, 1.0f, 1.0f, 1.0f);
 
         Draw(va, ib, *s_QuadShader);
 

@@ -18,6 +18,11 @@
 
 namespace odin {
 
+    enum RGBA : unsigned short {
+        Red = 0x01,
+        Orange = 0x02
+    };
+
     class Renderer2D {
 
     private:
