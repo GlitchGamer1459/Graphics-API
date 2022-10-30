@@ -1,11 +1,39 @@
-batch rendering
-    involves creating a begin() and end() function to draw the scene at the end of the loop
 redo shader class to streamline and add more variance
     add support for variable amounts of shaders, other types of shaders, and individual shader files
-create material class to build off of texture class and create easier texturing
+create material class to build off of texture class and create simpler texturing
 add cameras as pass-by-value view matrices
-add basic input detection beyond <windows.h>
+add basic input detection beyond what is included in <windows.h>
+
+
 
 batch rendering:
 
-take float array of positions, add to one va
+40, 50 origin		10, 20 size
+
+0, 0
+0, 20
+10, 20
+10, 0
+
+0, 1, 2
+2, 3, 0
+
+model = 40 50 1
+view = 1 1 1
+projection = ortho aspect ratio
+
+
+
+
+pass vertex buffer array and index array in
+create vertex array and index buffer, use DrawQuad shader
+draw
+delete vertex array and index buffer, clear storage of passed data
+
+
+add color passing to shader
+add support for complex geometry(any quadrilateral, not just rectangles)
+abstract data passing for vba
+refactor to use static va, vb, and ib, to prevent unneeded system drag from making new objects each draw call
+
+pvm passing IMPORTANT!!!

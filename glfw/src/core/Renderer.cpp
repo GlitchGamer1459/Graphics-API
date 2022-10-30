@@ -9,7 +9,7 @@ namespace odin {
     static float s_ClearColor[4];
 
     Shader* Renderer2D::s_QuadShader;
-    unsigned int Renderer2D::s_Count, Renderer2D::s_Size;
+    unsigned int Renderer2D::s_Count, Renderer2D::s_Size, Renderer2D::s_QuadCount;
 
     std::vector<float> Renderer2D::s_Vertices;
     std::vector<unsigned int> Renderer2D::s_Indices;
@@ -48,21 +48,23 @@ namespace odin {
         GLCall(glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr));
     }
 
-    void Renderer2D::DrawQuad(const float* data, const uint32_t dCount, const uint32_t size,
-        const uint32_t* indices, const uint32_t iCount)
+    void Renderer2D::DrawQuad(const float* data, const uint32_t dCount)
     {
         for (int i = 0; i < dCount; i++) 
         {
             s_Vertices.push_back(*(data + i));
         }
 
-        for (int i = 0; i < iCount; i++)
-        {
-            s_Indices.push_back(*(indices + i));
-        }
+        s_Indices.push_back(0 + (s_QuadCount * 4));
+        s_Indices.push_back(1 + (s_QuadCount * 4));
+        s_Indices.push_back(2 + (s_QuadCount * 4));
+        s_Indices.push_back(2 + (s_QuadCount * 4));
+        s_Indices.push_back(3 + (s_QuadCount * 4));
+        s_Indices.push_back(0 + (s_QuadCount * 4));
 
-        s_Size += size;
-        s_Count += iCount;
+        s_Size += dCount * sizeof(float);
+        s_Count += 6;
+        s_QuadCount++;
     }
 
     void Renderer2D::DrawBatch()
@@ -78,6 +80,12 @@ namespace odin {
         s_QuadShader->SetUniform4f("u_DQColor", 1.0f, 1.0f, 1.0f, 1.0f);
 
         Draw(va, ib, *s_QuadShader);
+
+        s_Vertices.clear();
+        s_Indices.clear();
+        s_Size = 0;
+        s_Count = 0;
+        s_QuadCount = 0;
     }
 
 }//odin

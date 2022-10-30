@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 #include <iostream>
 #include <string>
@@ -14,6 +15,9 @@
 #define GLCall(x) GLClearErr();\
         x;\
         ASSERT(GLLogCall(#x, __FILE__, __LINE__))
+
+int OdinGlfwInit();
+int OdinGlewInit();
 
 void GlfwErrorCallback(int code, const char* errmsg);
 void GLClearErr();

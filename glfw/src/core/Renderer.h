@@ -24,7 +24,7 @@ namespace odin {
         Renderer2D() = default;
 
         static Shader* s_QuadShader;
-        static unsigned int s_Count, s_Size;
+        static unsigned int s_Count, s_Size, s_QuadCount;
 
         static std::vector<float> s_Vertices;
         static std::vector<unsigned int> s_Indices;
@@ -37,8 +37,7 @@ namespace odin {
         static void SetClearColor(float r, float g, float b, float a);
         static void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader);
 
-        static void DrawQuad(const float* data, const uint32_t dCount, const uint32_t size, 
-            const uint32_t* indices, const uint32_t iCount);
+        static void DrawQuad(const float* data, const uint32_t dCount);
 
         static void DrawBatch();
 
