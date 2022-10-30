@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "VertexArray.h"
 #include "IndexBuffer.h"
@@ -12,44 +13,35 @@
 /*
  void DrawQuad
  void DrawTexQuad
- void DrawQueue
+ void DrawBatchedQuads
 */
 
 namespace odin {
 
-    enum RGBA : unsigned char {
-
-        Red = 0x00,
-        Orange = 0x01,
-        Yellow = 0x02,
-        Green = 0x03,
-        Blue = 0x04,
-        Purple = 0x05,
-        White = 0x06,
-        Black = 0x07,
-        Gray = 0x08
-
-    };
-
-    struct Color {
-
-        float r;
-        float g;
-        float b;
-        float a;
-
-    };
-
-    class Renderer {
+    class Renderer2D {
 
     private:
-        float m_ClearColor[4];
+        Renderer2D() = default;
 
+        static Shader* s_QuadShader;
+        static unsigned int s_Count, s_Size;
+
+        static std::vector<float> s_Vertices;
+        static std::vector<unsigned int> s_Indices;
+        
     public:
-        void Clear() const;
-        void SetClearColor(float r, float g, float b, float a);
-        void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader);
+        static void Init(const std::string& shaderName);
+        static void Shutdown();
 
-    };
+        static void Clear();
+        static void SetClearColor(float r, float g, float b, float a);
+        static void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader);
 
-}
+        static void DrawQuad(const float* data, const uint32_t dCount, const uint32_t size, 
+            const uint32_t* indices, const uint32_t iCount);
+
+        static void DrawBatch();
+
+    };//Renderer2D
+
+}//odin

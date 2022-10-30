@@ -27,7 +27,7 @@
 
 using odin::Renderer2D;
 
-int main(void) 
+int main(void)
 {
     if (!glfwInit())
         return -1;
@@ -39,7 +39,7 @@ int main(void)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     odin::Window window(960, 540, "Hello World", NULL, NULL);
-    if (window.WindowDoesNotExist()) 
+    if (window.WindowDoesNotExist())
     {
         std::cout << "glfw failed to make a window\n";
         return -1;
@@ -50,7 +50,7 @@ int main(void)
     glfwSwapInterval(1);
 
     GLenum err = glewInit();
-    if (GLEW_OK != err) 
+    if (GLEW_OK != err)
     {
         fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
         return 1;
@@ -63,42 +63,60 @@ int main(void)
     GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
     GLCall(glEnable(GL_BLEND));
 
+    float birdV[] = {
+        -42.5f, -32.5f, 0.0f, 1.0f, // 0
+        -42.5f,  32.5f, 0.0f, 0.0f, // 1
+         42.5f,  32.5f, 1.0f, 0.0f, // 2
+         42.5f, -32.5f, 1.0f, 1.0f  // 3 
+    };
+
+    unsigned int birdIndices[] = {
+        0, 1, 2,
+        2, 3, 0
+    };
+
+    odin::VertexArray bird;
+    odin::VertexBuffer vb(&birdV, 4 * 4 * sizeof(float));
+    odin::VertexBufferLayout birdLayout;
+    birdLayout.Push<float>(2);
+    birdLayout.Push<float>(2);
+    bird.AddBuffer(vb, birdLayout);
+
+    odin::IndexBuffer birdIB(birdIndices, 6);
+
+    glm::vec3 birdTranslation(320, 270, 0);
+
     glm::mat4 projection = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
     glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
 
-    Renderer2D::Init("res/shaders/DrawQuad.fs");
+    odin::Shader birdShader("res/shaders/fbird.fs");
+
+    odin::Texture texture("res/textures/flappy_bird.png");
+    texture.Bind(0);
+    birdShader.SetUniform1i("u_Texture", 0);
+
+    float birdSpeed = 0.0f;
+
     Renderer2D::SetClearColor(0.25f, 0.95f, 1.0f, 1.0f);
-
-    float square[]{
-        0, 0, // 0
-        0, 1, // 1
-        1, 1, // 2
-        1, 0  // 3 
-    };
-
-    uint32_t indices[]{
-        0, 1, 2, 2, 3, 0
-    };
-
-    float s2[]{
-        0, 0, // 0
-        0, -1, // 1
-        -1, -1, // 2
-        -1, 0  // 3 
-    };
-
-    uint32_t i2[]{
-        4, 5, 6, 6, 7, 4
-    };
 
     while (!window.WindowShouldClose())
     {
         Renderer2D::Clear();
 
-        Renderer2D::DrawQuad(square, 8, 4 * 2 * sizeof(float), indices, 6);
-        Renderer2D::DrawQuad(s2, 8, 4 * 2 * sizeof(float), i2, 6);
+        birdSpeed -= 0.25;
 
-        Renderer2D::DrawBatch();
+        birdTranslation.y += birdSpeed;
+
+        if (GetAsyncKeyState(VK_SPACE) & 0x8000 && birdSpeed < 6)
+            birdSpeed = 8;
+
+        glm::mat4 model = glm::translate(glm::mat4(1.0f), birdTranslation);
+
+        glm::mat4 mvp = projection * view * model;
+
+        birdShader.SetUniformMat4f("u_bMVP", mvp);
+        Renderer2D::Draw(bird, birdIB, birdShader);
+
         window.SwapBuffers();
         glfwPollEvents();
     }

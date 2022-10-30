@@ -38,7 +38,7 @@ namespace odin {
         };
 
         std::string line;
-        std::stringstream ss[2];
+        std::stringstream ss[2] = {};
         ShaderType type = ShaderType::NONE;
         while (getline(stream, line))
         {
@@ -49,8 +49,9 @@ namespace odin {
                 else if (line.find("fragment") != std::string::npos)
                     type = ShaderType::FRAGMENT;
             }
-            else
-                ss[(int)type] << line << '\n';
+            else {
+                ss[(int)type] << line << std::endl;
+            }
         }
 
         return { ss[0].str(), ss[1].str() };
@@ -73,6 +74,7 @@ namespace odin {
             char* message = (char*)alloca(len * sizeof(char));
             GLCall(glGetShaderInfoLog(id, len, &len, message));
 
+            std::cout << len << std::endl;
             std::cout << "[GLSL] " << (type == GL_VERTEX_SHADER ? "Vertex" : "Fragment") << " shader failed to compile\n";
             std::cout << message << std::endl;
 

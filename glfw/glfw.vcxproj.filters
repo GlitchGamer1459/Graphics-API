@@ -1408,5 +1408,6 @@
     <None Include="src\vendor\glm\gtx\wrap.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="res\shaders\DrawQuad.fs" />
   </ItemGroup>
 </Project>

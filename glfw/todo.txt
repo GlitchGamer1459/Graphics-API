@@ -1,4 +1,3 @@
-add namespace odin to everything
 batch rendering
     involves creating a begin() and end() function to draw the scene at the end of the loop
 redo shader class to streamline and add more variance
@@ -6,3 +5,7 @@ redo shader class to streamline and add more variance
 create material class to build off of texture class and create easier texturing
 add cameras as pass-by-value view matrices
 add basic input detection beyond <windows.h>
+
+batch rendering:
+
+take float array of positions, add to one va
