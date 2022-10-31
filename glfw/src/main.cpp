@@ -98,6 +98,8 @@ int main(void)
         if (hasBegun)
         {
             birdSpeed -= 0.25;
+            birdSpeed = util::clampf(birdSpeed, -20, 10);
+
             birdTranslation.y += birdSpeed;
         }
 
@@ -121,7 +123,7 @@ int main(void)
         model = glm::rotate(model, glm::radians(util::clampf(degrees, -60.0f, 70.0f)), glm::vec3(0, 0, 1));
 
         glm::mat4 mvp = projection * view * model;
-
+        
         birdShader.SetUniformMat4f("u_bMVP", mvp);
 
         if (!(birdTranslation.y < 108.0f + 32.5f))
