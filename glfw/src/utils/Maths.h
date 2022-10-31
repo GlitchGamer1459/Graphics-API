@@ -8,6 +8,17 @@ namespace util {
         return n >= low && n <= high;
     }
 
+	template<typename _Tp, typename _LH>
+	float clampf(_Tp in, _LH low, _LH high)
+	{
+		if (in < low)
+			return low;
+		else if (in > high)
+			return high;
+		
+		return in;
+	}
+
 	template<typename _Tp>
 	float rootf(_Tp l)
 	{

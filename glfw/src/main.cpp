@@ -48,18 +48,44 @@ int main(void)
     glm::mat4 projection = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
     glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
 
-    float quad1[]{
-        0.0f, 0.0f, 0.0f, 1.0f, 0.5f, 0.0f, 1.0f, // 0
-        0.0f, 1.0f, 0.0f, 1.0f, 0.5f, 0.0f, 1.0f, // 1
-        1.0f, 1.0f, 0.0f, 1.0f, 0.5f, 0.0f, 1.0f, // 2
-        1.0f, 0.0f, 0.0f, 1.0f, 0.5f, 0.0f, 1.0f  // 3 
+    float birdV[] = {
+    -42.5f, -32.5f, 0.0f, 1.0f, // 0
+    -42.5f,  32.5f, 0.0f, 0.0f, // 1
+     42.5f,  32.5f, 1.0f, 0.0f, // 2
+     42.5f, -32.5f, 1.0f, 1.0f  // 3
     };
 
-    float quad2[]{
-         0.0f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, // 4
-         0.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, // 5
-        -1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, // 6
-        -1.0f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f  // 7 
+    unsigned int birdIndices[] = {
+        0, 1, 2,
+        2, 3, 0
+    };
+
+    odin::VertexArray bird;
+    odin::VertexBuffer vb(&birdV, 4 * 4 * sizeof(float));
+    odin::VertexBufferLayout birdLayout;
+    birdLayout.Push<float>(2);
+    birdLayout.Push<float>(2);
+    bird.AddBuffer(vb, birdLayout);
+
+    odin::IndexBuffer birdIB(birdIndices, 6);
+
+    glm::vec3 birdTranslation(320, 270, 0);
+
+    odin::Shader birdShader("res/shaders/fbird.fs");
+
+    odin::Texture texture("res/textures/flappy_bird.png");
+    texture.Bind(0);
+    birdShader.SetUniform1i("u_Texture", 0);
+
+    float birdSpeed = 0.0f;
+    bool hasBegun = false;
+    bool hasPressed = false;
+    
+    float pipeB[]{
+        0.3f, -0.3f, 0.0f,
+        0.3f, -0.3f, 0.0f,
+        0.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 0.0f
     };
 
     Renderer2D::Init("res/shaders/DrawQuad.fs");
@@ -69,10 +95,42 @@ int main(void)
     {
         Renderer2D::Clear();
 
-        Renderer2D::DrawQuad(quad1, 28);
-        Renderer2D::DrawQuad(quad2, 28);
+        if (hasBegun)
+        {
+            birdSpeed -= 0.25;
+            birdTranslation.y += birdSpeed;
+        }
 
-        Renderer2D::DrawQuad(-0.5, 0.5, 0.25, 0.25, {1.0f, 0.0f, 0.0f, 1.0f});
+        short spaceState = GetAsyncKeyState(VK_SPACE);
+
+        if (spaceState & 0x8000 && birdSpeed < 6 && !hasPressed)
+        {
+            birdSpeed = 8;
+            if (!hasBegun)
+                hasBegun = true;
+            hasPressed = true;
+        }
+        else if ((spaceState & 0x8000) == 0x0000)
+        {
+            hasPressed = false;
+        }
+
+        float degrees = 4 * birdSpeed;
+
+        glm::mat4 model = glm::translate(glm::mat4(1.0f), birdTranslation);
+        model = glm::rotate(model, glm::radians(util::clampf(degrees, -60.0f, 70.0f)), glm::vec3(0, 0, 1));
+
+        glm::mat4 mvp = projection * view * model;
+
+        birdShader.SetUniformMat4f("u_bMVP", mvp);
+
+        if (!(birdTranslation.y < 108.0f + 32.5f))
+            Renderer2D::Draw(bird, birdIB, birdShader);
+        else
+            return 0;
+        
+        //ground
+        Renderer2D::DrawQuad(-1.0f, -1.0f, 2.0f, 0.4f, {0.15f, 0.6f, 0.1f, 1.0f});
 
         Renderer2D::DrawBatch();
         window.SwapBuffers();
