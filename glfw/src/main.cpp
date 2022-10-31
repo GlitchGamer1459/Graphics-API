@@ -23,8 +23,6 @@
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
 
-#define ODIN_RED { 1.0f, 0.0f, 0.0f, 1.0f }
-
 using odin::Renderer2D;
 
 int main(void)
@@ -50,15 +48,15 @@ int main(void)
     glm::mat4 projection = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
     glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
 
-    float square[]{
+    float quad1[]{
         0.0f, 0.0f, 0.0f, 1.0f, 0.5f, 0.0f, 1.0f, // 0
         0.0f, 1.0f, 0.0f, 1.0f, 0.5f, 0.0f, 1.0f, // 1
         1.0f, 1.0f, 0.0f, 1.0f, 0.5f, 0.0f, 1.0f, // 2
         1.0f, 0.0f, 0.0f, 1.0f, 0.5f, 0.0f, 1.0f  // 3 
     };
 
-    float s2[]{
-         0.0f,  0.0f , 0 , 1.0f, 0.0f, 1.0f, 1.0f, // 4
+    float quad2[]{
+         0.0f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, // 4
          0.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, // 5
         -1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, // 6
         -1.0f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f  // 7 
@@ -71,8 +69,10 @@ int main(void)
     {
         Renderer2D::Clear();
 
-        Renderer2D::DrawQuad(square, 28);
-        Renderer2D::DrawQuad(s2, 28);
+        Renderer2D::DrawQuad(quad1, 28);
+        Renderer2D::DrawQuad(quad2, 28);
+
+        Renderer2D::DrawQuad(-0.5, 0.5, 0.25, 0.25, {1.0f, 0.0f, 0.0f, 1.0f});
 
         Renderer2D::DrawBatch();
         window.SwapBuffers();

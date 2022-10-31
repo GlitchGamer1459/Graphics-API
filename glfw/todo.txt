@@ -22,14 +22,10 @@ model = 40 50 1
 view = 1 1 1
 projection = ortho aspect ratio
 
-
-
-
 pass vertex buffer array and index array in
 create vertex array and index buffer, use DrawQuad shader
 draw
 delete vertex array and index buffer, clear storage of passed data
-
 
 add color passing to shader
 add support for complex geometry(any quadrilateral, not just rectangles)
@@ -37,3 +33,6 @@ abstract data passing for vba
 refactor to use static va, vb, and ib, to prevent unneeded system drag from making new objects each draw call
 
 pvm passing IMPORTANT!!!
+
+
+instanced rendering:

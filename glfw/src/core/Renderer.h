@@ -18,10 +18,12 @@
 
 namespace odin {
 
-    enum RGBA : unsigned short {
-        Red = 0x01,
-        Orange = 0x02
-    };
+    typedef struct {
+        float r;
+        float g;
+        float b;
+        float a;
+    } Color;
 
     class Renderer2D {
 
@@ -43,6 +45,7 @@ namespace odin {
         static void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader);
 
         static void DrawQuad(const float* data, const uint32_t dCount);
+        static void DrawQuad(float x, float y, float w, float h, Color color);
 
         static void DrawBatch();
 

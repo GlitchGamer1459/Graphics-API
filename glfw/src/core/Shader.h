@@ -46,6 +46,6 @@ namespace odin {
 
         int GetUniformLocation(const std::string& name) const;
 
-    };
+    };//Shader
 
-}
+}//odin

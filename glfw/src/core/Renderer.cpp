@@ -67,6 +67,39 @@ namespace odin {
         s_QuadCount++;
     }
 
+    void Renderer2D::DrawQuad(float x, float y, float w, float h, Color color) 
+    {
+        float data[28];
+        glm::vec3 point = { x, y, 0.0f };
+
+        for (int i = 0; i < 4; i++) 
+        {
+            switch (i)
+            {
+            case 1:
+                point.x += w;
+                break;
+            case 2:
+                point.y += h;
+                break;
+            case 3:
+                point.x -= w;
+                break;
+            }
+
+            data[0 + (i * 7)] = point[0];
+            data[1 + (i * 7)] = point[1];
+            data[2 + (i * 7)] = point[2];
+            data[3 + (i * 7)] = color.r;
+            data[4 + (i * 7)] = color.g;
+            data[5 + (i * 7)] = color.b;
+            data[6 + (i * 7)] = color.a;
+
+        }
+
+        DrawQuad(data, 28);
+    }
+
     void Renderer2D::DrawBatch()
     {
         VertexArray va;
