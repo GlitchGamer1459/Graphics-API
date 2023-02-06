@@ -8,6 +8,9 @@ namespace odin {
 
     static float s_ClearColor[4];
 
+    ConstColor Colors::Black(0.0f, 0.0f, 0.0f, 1.0f);
+    ConstColor Colors::White(1.0f, 1.0f, 1.0f, 1.0f);
+
     Shader* Renderer2D::s_QuadShader;
     unsigned int Renderer2D::s_Count, Renderer2D::s_Size, Renderer2D::s_QuadCount;
 
@@ -39,6 +42,26 @@ namespace odin {
         GLCall(glClearColor(s_ClearColor[0], s_ClearColor[1], s_ClearColor[2], s_ClearColor[3]));
     }
 
+    void Renderer2D::SetClearColor(Color color)
+    {
+        s_ClearColor[0] = color.r;
+        s_ClearColor[1] = color.g;
+        s_ClearColor[2] = color.b;
+        s_ClearColor[3] = color.a;
+
+        GLCall(glClearColor(s_ClearColor[0], s_ClearColor[1], s_ClearColor[2], s_ClearColor[3]));
+    }
+
+    void Renderer2D::SetClearColor(ConstColor color)
+    {
+        s_ClearColor[0] = color.r();
+        s_ClearColor[1] = color.g();
+        s_ClearColor[2] = color.b();
+        s_ClearColor[3] = color.a();
+
+        GLCall(glClearColor(s_ClearColor[0], s_ClearColor[1], s_ClearColor[2], s_ClearColor[3]));
+    }
+
     void Renderer2D::Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader)
     {
         shader.Bind();
@@ -50,7 +73,7 @@ namespace odin {
 
     void Renderer2D::DrawQuad(const float* data, const uint32_t dCount)
     {
-        for (int i = 0; i < dCount; i++) 
+        for (uint32_t i = 0; i < dCount; i++)
         {
             s_Vertices.push_back(*(data + i));
         }
@@ -94,7 +117,38 @@ namespace odin {
             data[4 + (i * 7)] = color.g;
             data[5 + (i * 7)] = color.b;
             data[6 + (i * 7)] = color.a;
+        }
 
+        DrawQuad(data, 28);
+    }
+
+    void Renderer2D::DrawQuad(float x, float y, float w, float h, ConstColor color)
+    {
+        float data[28];
+        glm::vec3 point = { x, y, 0.0f };
+
+        for (int i = 0; i < 4; i++)
+        {
+            switch (i)
+            {
+            case 1:
+                point.x += w;
+                break;
+            case 2:
+                point.y += h;
+                break;
+            case 3:
+                point.x -= w;
+                break;
+            }
+
+            data[0 + (i * 7)] = point[0];
+            data[1 + (i * 7)] = point[1];
+            data[2 + (i * 7)] = point[2];
+            data[3 + (i * 7)] = color.r();
+            data[4 + (i * 7)] = color.g();
+            data[5 + (i * 7)] = color.b();
+            data[6 + (i * 7)] = color.a();
         }
 
         DrawQuad(data, 28);

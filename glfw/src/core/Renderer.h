@@ -18,12 +18,36 @@
 
 namespace odin {
 
-    typedef struct {
+    struct Color {
         float r;
         float g;
         float b;
         float a;
-    } Color;
+    };
+
+    class ConstColor
+    {
+    public:
+        ConstColor(float ri, float gi, float bi, float ai)
+            : c({ ri , gi, bi, ai })
+        {
+        }
+
+        float r() { return c.r; };
+        float b() { return c.g; };
+        float g() { return c.b; };
+        float a() { return c.a; };
+
+    private:
+        Color c;
+    };
+
+    class Colors
+    {
+    public:
+        static ConstColor Black;
+        static ConstColor White;
+    };
 
     class Renderer2D {
 
@@ -42,10 +66,13 @@ namespace odin {
 
         static void Clear();
         static void SetClearColor(float r, float g, float b, float a);
+        static void SetClearColor(Color color);
+        static void SetClearColor(ConstColor color);
         static void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader);
 
         static void DrawQuad(const float* data, const uint32_t dCount);
         static void DrawQuad(float x, float y, float w, float h, Color color);
+        static void DrawQuad(float x, float y, float w, float h, ConstColor color);
 
         static void DrawBatch();
 
